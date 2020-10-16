@@ -10,7 +10,18 @@ const Game: React.FC = () => {
     const [gameState, setGameState] = useState(false);
 
     useEffect(() => {
-        initiateSim(grid);
+
+        if (gameState === false) {
+            const newGrid = gridTemplate();
+            console.log(newGrid, grid)
+            return setGrid(newGrid)
+        }
+
+        if (gameState === true) {
+            initiateSim(grid)
+            setTimeout(() => initiateSim(grid), 500);
+        };
+
     }, [gameState])
 
     const updateCell = (
@@ -51,9 +62,12 @@ const Game: React.FC = () => {
         ];
 
         if (gameState === true) {
+
+            // * CHECK AND UPDATE POSITIONS
             for (let i = 0; i < rowNumber; i++) {
                 for (let c = 0; c < colNumber; c++) {
                     let cellState = 0;
+
                     neighborCheck.forEach(([x, y]) => {
                         const positionX = i + x;
                         const positionY = c + y;
@@ -74,10 +88,9 @@ const Game: React.FC = () => {
                 }
             }
 
+            // * UPDATE GRID
             setGrid(newGrid);
-        }
-
-        setTimeout(() => initiateSim(grid), 1000);
+        } 
     }
 
     return (
