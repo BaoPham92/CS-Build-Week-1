@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "./styles/Game.css"
 
 const gridTemplate = (size: number = 100) => Array(size).fill(0).map(() => Array(size).fill(0));
@@ -8,18 +8,13 @@ const colNumber: number = 100;
 const Game: React.FC = () => {
     const [grid, setGrid] = useState(() => gridTemplate());
     const [gameState, setGameState] = useState(false);
+    const gameStateRef = useRef(gameState);
+    gameStateRef.current = gameState;
 
     useEffect(() => {
 
-        if (gameState === false) {
-            const newGrid = gridTemplate();
-            console.log(newGrid, grid)
-            return setGrid(newGrid)
-        }
-
         if (gameState === true) {
             initiateSim(grid)
-            setTimeout(() => initiateSim(grid), 500);
         };
 
     }, [gameState])
@@ -47,6 +42,11 @@ const Game: React.FC = () => {
 
     const initiateSim = (grid: any) => {
 
+        if (gameStateRef.current === false) {
+            const newGrid = gridTemplate();
+            return setGrid(newGrid)
+        }
+
         // * NEW GRID COPY
         const newGrid = [...grid];
 
@@ -61,7 +61,7 @@ const Game: React.FC = () => {
             [-1, -1]
         ];
 
-        if (gameState === true) {
+        if (gameStateRef.current === true) {
 
             // * CHECK AND UPDATE POSITIONS
             for (let i = 0; i < rowNumber; i++) {
@@ -91,6 +91,8 @@ const Game: React.FC = () => {
             // * UPDATE GRID
             setGrid(newGrid);
         } 
+
+        if (gameState) setTimeout(() => initiateSim(grid), 500);
     }
 
     return (
