@@ -14,14 +14,26 @@ const Game: React.FC = () => {
         <main className="grid__container">
             {
                 grid.map((rows, rIndex) => rows.map(
-                    (col, cIndex) => <div 
-                    key={rIndex + cIndex} 
-                    style={{
-                        border: "solid 1px black",
-                        background: grid[rIndex][cIndex] === 1 ? "blue" : "white",
-                        width: 10,
-                        height: 10,
-                    }}>
+                    (col, cIndex) => <div
+                        key={rIndex + cIndex}
+                        onClick={() => {
+                            const newGrid = [...grid];
+
+                            if (!grid[rIndex][cIndex]) {
+                                grid[rIndex][cIndex] = 1
+                            } else {
+                                grid[rIndex][cIndex] = 0
+                            }
+
+                            newGrid[rIndex] = grid[rIndex];
+                            setGrid(newGrid);
+                        }}
+                        style={{
+                            border: "solid 1px black",
+                            backgroundColor: grid[rIndex][cIndex] ? "blue" : "white",
+                            width: 10,
+                            height: 10,
+                        }}>
                     </div>
                 ))
             }
