@@ -1,0 +1,5 @@
+.grid__container {
+    display: grid;
+    grid-template-columns: repeat(100, 10px);
+    margin: 0 auto;
+}
