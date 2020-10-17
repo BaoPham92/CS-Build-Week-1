@@ -92,7 +92,7 @@ const Game: React.FC = () => {
             setGrid(newGrid);
         } 
 
-        if (gameState) setTimeout(() => initiateSim(grid), 500);
+        if (gameState) setTimeout(() => initiateSim(grid), 10);
     }
 
     return (
