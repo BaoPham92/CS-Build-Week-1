@@ -105,7 +105,7 @@ const Game: React.FC = () => {
                     grid.map((rows, rIndex) => rows.map(
                         (col, cIndex) => <div
                             key={rIndex + cIndex}
-                            onClick={() => updateCell(grid, rIndex, cIndex)}
+                            onClick={() => !gameState ? updateCell(grid, rIndex, cIndex) : undefined}
                             style={{
                                 border: "solid 1px black",
                                 backgroundColor: grid[rIndex][cIndex] ? "blue" : "white",
