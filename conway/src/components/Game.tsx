@@ -2,9 +2,9 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import produce from "immer";
 import "./styles/Game.css"
 
-const gridTemplate = (size: number = 100) => Array(size).fill(0).map(() => Array(size).fill(0));
-const rowNumber: number = 100;
-const colNumber: number = 100;
+const gridTemplate = (size: number = 50) => Array(size).fill(0).map(() => Array(size).fill(0));
+const rowNumber: number = 50;
+const colNumber: number = 50;
 
 const Game: React.FC = () => {
     const [grid, setGrid] = useState(() => gridTemplate());
@@ -89,7 +89,26 @@ const Game: React.FC = () => {
     }, [])
 
     return (
-        <>
+        <div className="board">
+            <div className="grid__wrapper">
+                <div className="grid__container">
+                    {
+                        grid.map((rows, rIndex) => rows.map(
+                            (col, cIndex) => <div
+                                key={rIndex + cIndex}
+                                onClick={() => !gameState ? updateCell(grid, rIndex, cIndex) : undefined}
+                                style={{
+                                    border: "solid 0.5px black",
+                                    backgroundColor: grid[rIndex][cIndex] ? "blue" : "white",
+                                    width: 25,
+                                    height: 25,
+                                }}>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+
             <button
                 onClick={() => { setGameState(!gameState) }}>
                 {!gameState ? "start" : "stop"}
@@ -99,24 +118,7 @@ const Game: React.FC = () => {
                 onClick={() => { setReset(!reset) }}>
                 reset
             </button>
-
-            <main className="grid__container">
-                {
-                    grid.map((rows, rIndex) => rows.map(
-                        (col, cIndex) => <div
-                            key={rIndex + cIndex}
-                            onClick={() => !gameState ? updateCell(grid, rIndex, cIndex) : undefined}
-                            style={{
-                                border: "solid 1px black",
-                                backgroundColor: grid[rIndex][cIndex] ? "blue" : "white",
-                                width: 10,
-                                height: 10,
-                            }}>
-                        </div>
-                    ))
-                }
-            </main>
-        </>
+        </div>
     );
 }
 

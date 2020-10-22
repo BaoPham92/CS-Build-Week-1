@@ -1,5 +1,9 @@
+.grid__wrapper {
+    display: flex;
+    justify-content: center;
+}
+
 .grid__container {
     display: grid;
-    grid-template-columns: repeat(100, 10px);
-    margin: 0 auto;
+    grid-template-columns: repeat(50, fit-content(100%));
 }
