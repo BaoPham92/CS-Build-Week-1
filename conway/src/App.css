@@ -2,4 +2,47 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    background-color: #0b0c10;
 } 
+
+.menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 15vw;
+    background: #1F2833;
+    opacity: 0;
+    transform: translate(-400px);
+    transition: 0.35s ease-in-out;
+    border-right: 1px solid #45A29E;
+    border-bottom: 1px solid #45A29E;
+    border-top: 1px solid #45A29E;
+
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.menu-active {
+    opacity: 1;
+    transform: translate(0px);
+    transition: 0.35s ease-in-out;
+}
+
+.menu-btn {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.menu-btn > div {
+    width: 2.5vw;
+    height: 0.6vh;
+    background: #66FCF190;
+    margin: 0.3rem;
+    border-radius: 3rem;
+}

@@ -2,13 +2,25 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import produce from "immer";
 import "./styles/Game.css"
 
-const gridTemplate = (size: number = 50) => Array(size).fill(0).map(() => Array(size).fill(0));
+const gridTemplate = (
+    size: number = 50,
+    random: boolean = false
+) => Array(size).fill(0).map(() => {
+    const cellState = Array(size).fill(0);
+
+    if (random) {
+        return cellState.map(() => Math.floor(Math.random() * 2))
+    }
+
+    return cellState
+});
 const rowNumber: number = 50;
 const colNumber: number = 50;
 
 const Game: React.FC = () => {
-    const [grid, setGrid] = useState(() => gridTemplate());
-    const [gameState, setGameState] = useState(false);
+    const [grid, setGrid] = useState(() => gridTemplate(undefined, true));
+    const [gameState, setGameState] = useState(true);
+    const [menu, setMenu] = useState(false)
     const [reset, setReset] = useState(false);
     const gameStateRef = useRef(gameState);
     gameStateRef.current = gameState;
@@ -16,7 +28,7 @@ const Game: React.FC = () => {
     useEffect(() => {
 
         if (reset === true) {
-            const newGrid = gridTemplate();
+            const newGrid = gridTemplate(undefined, true);
             setReset(false)
             return setGrid(newGrid)
         }
@@ -98,8 +110,8 @@ const Game: React.FC = () => {
                                 key={rIndex + cIndex}
                                 onClick={() => !gameState ? updateCell(grid, rIndex, cIndex) : undefined}
                                 style={{
-                                    border: "solid 0.5px black",
-                                    backgroundColor: grid[rIndex][cIndex] ? "blue" : "white",
+                                    border: "solid 0.5px #45A29E",
+                                    backgroundColor: grid[rIndex][cIndex] ? "#66FCF1" : "#1F2833",
                                     width: 25,
                                     height: 25,
                                 }}>
@@ -109,15 +121,30 @@ const Game: React.FC = () => {
                 </div>
             </div>
 
-            <button
-                onClick={() => { setGameState(!gameState) }}>
-                {!gameState ? "start" : "stop"}
-            </button>
+            <div 
+            onClick={() => setMenu(!menu)}
+            className="menu-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
 
-            <button
-                onClick={() => { setReset(!reset) }}>
-                reset
-            </button>
+            <div className={`menu ${menu ? 'menu-active' : ''}`}>
+                <button
+                    onClick={() => setMenu(!menu)}>
+                    close
+                </button>
+                
+                <button
+                    onClick={() => { setGameState(!gameState) }}>
+                    {!gameState ? "start" : "stop"}
+                </button>
+
+                <button
+                    onClick={() => { setReset(!reset) }}>
+                    reset
+                </button>
+            </div>
         </div>
     );
 }
