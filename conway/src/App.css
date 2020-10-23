@@ -33,6 +33,14 @@ h1 {
     width: 15vw;
     transform: translate(-400px);
     border-right: 1px solid #45A29E;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.menu > button {
+    margin: 1rem 0;
 }
 
 .menu-active {
