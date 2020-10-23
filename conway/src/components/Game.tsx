@@ -21,26 +21,10 @@ const Game: React.FC = () => {
     const [grid, setGrid] = useState(() => gridTemplate(undefined, true));
     const [gameState, setGameState] = useState(true);
     const [menu, setMenu] = useState(false)
+    const [menuInfo, setMenuInfo] = useState(false)
     const [reset, setReset] = useState({ restart: false, clear: false });
     const gameStateRef = useRef(gameState);
     gameStateRef.current = gameState;
-
-    useEffect(() => {
-        const { clear, restart } = reset;
-
-        if (restart || clear) {
-
-            const newGrid = gridTemplate(undefined, clear ? false : true);
-            setReset({ ...reset, restart: false, clear: false })
-
-            if (clear === true) setGameState(false)
-
-            return setGrid(newGrid)
-        }
-
-        if (gameState === true) initiateSim();
-
-    }, [gameState, reset])
 
     const updateCell = (
         grid: any,
@@ -102,6 +86,22 @@ const Game: React.FC = () => {
         setTimeout(() => initiateSim(), 10);
     }, [])
 
+    useEffect(() => {
+        const { clear, restart } = reset;
+
+        if (restart || clear) {
+            const newGrid = gridTemplate(undefined, clear ? false : true);
+            setReset({ ...reset, restart: false, clear: false })
+
+            if (clear === true) setGameState(false)
+
+            return setGrid(newGrid)
+        }
+
+        if (gameState === true) initiateSim();
+
+    }, [gameState, initiateSim, reset])
+
     return (
         <div className="board">
             <div className="grid__wrapper">
@@ -131,6 +131,32 @@ const Game: React.FC = () => {
                 <div></div>
             </div>
 
+            <div className={
+                `menu-info ${!menu ? '' : menuInfo ? 'menu-active' : ''}`
+            }>
+                <div>
+                    <header>
+                        <h2>About Conway's Game of Life</h2>
+                    </header>
+
+                    <p>
+                        The Game of Life, also known simply as Life,
+                        is a cellular automaton devised by the British mathematician
+                        John Horton Conway in 1970. It is a zero-player game,
+                        meaning that its evolution is determined by its initial state,
+                        requiring no further input. One interacts with the Game of Life
+                        by creating an initial configuration and observing how it evolves.
+                        It is Turing complete and can simulate a universal constructor or
+                        any other Turing machine.
+                    </p>
+                </div>
+                <button className="menu-info_btn">
+                    <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">
+                        Learn More
+                    </a>
+                </button>
+            </div>
+
             <div className={`menu ${menu ? 'menu-active' : ''}`}>
                 <button
                     onClick={() => setMenu(!menu)}>
@@ -150,6 +176,11 @@ const Game: React.FC = () => {
                 <button
                     onClick={() => { setReset({ ...reset, clear: true }) }}>
                     Clear
+                </button>
+
+                <button
+                    onClick={() => setMenuInfo(!menuInfo)}>
+                    About "Conway's Game Of Life"
                 </button>
             </div>
         </div>

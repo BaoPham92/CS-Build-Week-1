@@ -26,3 +26,13 @@ button:hover {
   border: 1px solid #45A29E;
   transition: 0.25s ease-in-out;
 }
+
+a, a:active, a:visited {
+  text-decoration: none;
+  color: #1F2833;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0b0c10;
+}
