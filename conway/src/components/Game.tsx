@@ -21,21 +21,24 @@ const Game: React.FC = () => {
     const [grid, setGrid] = useState(() => gridTemplate(undefined, true));
     const [gameState, setGameState] = useState(true);
     const [menu, setMenu] = useState(false)
-    const [reset, setReset] = useState(false);
+    const [reset, setReset] = useState({ restart: false, clear: false });
     const gameStateRef = useRef(gameState);
     gameStateRef.current = gameState;
 
     useEffect(() => {
+        const { clear, restart } = reset;
 
-        if (reset === true) {
-            const newGrid = gridTemplate(undefined, true);
-            setReset(false)
+        if (restart || clear) {
+
+            const newGrid = gridTemplate(undefined, clear ? false : true);
+            setReset({ ...reset, restart: false, clear: false })
+
+            if (clear === true) setGameState(false)
+
             return setGrid(newGrid)
         }
 
-        if (gameState === true) {
-            initiateSim()
-        };
+        if (gameState === true) initiateSim();
 
     }, [gameState, reset])
 
@@ -89,9 +92,8 @@ const Game: React.FC = () => {
 
                         if (cellState < 2 || cellState > 3) {
                             newGrid[i][c] = 0;
-                        } else if (grid[i][c] === 0 && cellState === 3) {
+                        } else if (grid[i][c] === 0 && cellState === 3)
                             newGrid[i][c] = 1;
-                        }
                     }
                 }
             })
@@ -121,9 +123,9 @@ const Game: React.FC = () => {
                 </div>
             </div>
 
-            <div 
-            onClick={() => setMenu(!menu)}
-            className="menu-btn">
+            <div
+                onClick={() => setMenu(!menu)}
+                className="menu-btn">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -132,17 +134,22 @@ const Game: React.FC = () => {
             <div className={`menu ${menu ? 'menu-active' : ''}`}>
                 <button
                     onClick={() => setMenu(!menu)}>
-                    close
-                </button>
-                
-                <button
-                    onClick={() => { setGameState(!gameState) }}>
-                    {!gameState ? "start" : "stop"}
+                    Close
                 </button>
 
                 <button
-                    onClick={() => { setReset(!reset) }}>
-                    reset
+                    onClick={() => { setGameState(!gameState) }}>
+                    {!gameState ? "Start" : "Stop"}
+                </button>
+
+                <button
+                    onClick={() => { setReset({ ...reset, restart: true }) }}>
+                    Restart
+                </button>
+
+                <button
+                    onClick={() => { setReset({ ...reset, clear: true }) }}>
+                    Clear
                 </button>
             </div>
         </div>
