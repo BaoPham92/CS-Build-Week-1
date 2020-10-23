@@ -1,9 +1,0 @@
-.grid__wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.grid__container {
-    display: grid;
-    grid-template-columns: repeat(50, fit-content(100%));
-}
